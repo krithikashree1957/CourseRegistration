@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Course Registration - v1</title>
+</head>
+<body>
+    <h1>Course Registration System</h1>
+    <h2>Version 1 - Add Courses</h2>
+
+    <form action="/add" method="POST">
+        <label for="course_code">Course Code:</label>
+        <input id="course_code" name="course_code"
+               placeholder="e.g. CSE101" required>
+
+        <label for="course_name">Course Name:</label>
+        <input id="course_name" name="course_name"
+               placeholder="e.g. Python Programming" required>
+
+        <button type="submit">Add Course</button>
+    </form>
+
+    <h2>Available Courses</h2>
+
+    {% if courses %}
+        <table border="1" cellpadding="8">
+            <tr>
+                <th>ID</th>
+                <th>Course Code</th>
+                <th>Course Name</th>
+            </tr>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.id }}</td>
+                <td>{{ course.code }}</td>
+                <td>{{ course.name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No courses added yet.</p>
+    {% endif %}
+</body>
+</html>
