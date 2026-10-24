@@ -29,7 +29,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat '"%DOCKER_EXE%" build -t %IMAGE_NAME%:v1 .'
+                bat '"%DOCKER_EXE%" build -t %IMAGE_NAME%:v2 .'
             }
         }
 
