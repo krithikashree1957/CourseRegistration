@@ -11,13 +11,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'python -m pip install -r requirements.txt'
+                bat '"D:\\CourseRegistration\\.venv\\Scripts\\python.exe" -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'python -m pytest -v'
+                bat '"D:\\CourseRegistration\\.venv\\Scripts\\python.exe" -m pytest -v'
             }
         }
     }
