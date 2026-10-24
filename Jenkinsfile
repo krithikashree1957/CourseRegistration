@@ -4,6 +4,8 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'krithika2013/course-registration'
+        DOCKER_EXE = 'C:\\Users\\LENOVO\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe'
+        PYTHON_EXE = 'D:\\CourseRegistration\\.venv\\Scripts\\python.exe'
     }
 
     stages {
@@ -15,19 +17,19 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat '"D:\\CourseRegistration\\.venv\\Scripts\\python.exe" -m pip install -r requirements.txt'
+                bat '"%PYTHON_EXE%" -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat '"D:\\CourseRegistration\\.venv\\Scripts\\python.exe" -m pytest -v'
+                bat '"%PYTHON_EXE%" -m pytest -v'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %IMAGE_NAME%:v1 .'
+                bat '"%DOCKER_EXE%" build -t %IMAGE_NAME%:v1 .'
             }
         }
 
@@ -41,9 +43,13 @@ pipeline {
                     )
                 ]) {
                     bat '''
-                        echo %DOCKERHUB_TOKEN% | docker login --username %DOCKERHUB_USER% --password-stdin
-                        docker push %IMAGE_NAME%:v1
-                        docker logout
+                        echo %DOCKERHUB_TOKEN% | "%DOCKER_EXE%" login --username %DOCKERHUB_USER% --password-stdin
+                        if errorlevel 1 exit /b 1
+
+                        "%DOCKER_EXE%" push %IMAGE_NAME%:v1
+                        if errorlevel 1 exit /b 1
+
+                        "%DOCKER_EXE%" logout
                     '''
                 }
             }
