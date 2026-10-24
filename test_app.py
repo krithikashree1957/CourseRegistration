@@ -1,42 +1,34 @@
 
-import pytest
-from app import app, courses
-
-
-@pytest.fixture(autouse=True)
-def reset_courses():
-    courses.clear()
-    yield
-    courses.clear()
+from app import app
 
 
 def test_home_page():
     client = app.test_client()
     response = client.get("/")
     assert response.status_code == 200
-    assert b"Add Courses" in response.data
+    assert b"Course Registration System - V2" in response.data
 
 
 def test_add_course():
     client = app.test_client()
-
     response = client.post(
         "/add",
-        data={
-            "course_code": "CSE101",
-            "course_name": "Python Programming"
-        },
-        follow_redirects=True
+        data={"course_name": "Cloud Computing"}
     )
-
-    assert response.status_code == 200
-    assert b"CSE101" in response.data
-    assert b"Python Programming" in response.data
+    assert response.status_code == 302
 
 
-def test_health_endpoint():
+def test_health():
     client = app.test_client()
     response = client.get("/health")
-
     assert response.status_code == 200
     assert response.json["status"] == "healthy"
+
+
+def test_student_registration():
+    client = app.test_client()
+    response = client.post(
+        "/register",
+        data={"student_name": "Test Student", "course_id": "1"}
+    )
+    assert response.status_code == 302

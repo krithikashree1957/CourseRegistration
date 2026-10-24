@@ -3,44 +3,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Course Registration - v1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Registration - V2</title>
 </head>
 <body>
-    <h1>Course Registration System</h1>
-    <h2>Version 1 - Add Courses</h2>
+    <h1>Course Registration System - V2</h1>
 
-    <form action="/add" method="POST">
-        <label for="course_code">Course Code:</label>
-        <input id="course_code" name="course_code"
-               placeholder="e.g. CSE101" required>
+    <h2>Available Courses</h2>
+    <ul>
+        {% for course in courses %}
+        <li>{{ course.id }}. {{ course.name }}</li>
+        {% endfor %}
+    </ul>
 
-        <label for="course_name">Course Name:</label>
-        <input id="course_name" name="course_name"
-               placeholder="e.g. Python Programming" required>
-
+    <h3>Add a Course</h3>
+    <form action="/add" method="post">
+        <input type="text" name="course_name"
+               placeholder="Course name" required>
         <button type="submit">Add Course</button>
     </form>
 
-    <h2>Available Courses</h2>
+    <hr>
 
-    {% if courses %}
-        <table border="1" cellpadding="8">
-            <tr>
-                <th>ID</th>
-                <th>Course Code</th>
-                <th>Course Name</th>
-            </tr>
+    <h2>Register for a Course</h2>
+    <form action="/register" method="post">
+        <label for="student_name">Student Name:</label>
+        <input id="student_name" type="text" name="student_name" required>
+
+        <label for="course_id">Choose Course:</label>
+        <select id="course_id" name="course_id" required>
             {% for course in courses %}
-            <tr>
-                <td>{{ course.id }}</td>
-                <td>{{ course.code }}</td>
-                <td>{{ course.name }}</td>
-            </tr>
+            <option value="{{ course.id }}">{{ course.name }}</option>
             {% endfor %}
-        </table>
+        </select>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <h2>Current Registrations</h2>
+    {% if registrations %}
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Registration ID</th>
+            <th>Student Name</th>
+            <th>Course</th>
+        </tr>
+        {% for registration in registrations %}
+        <tr>
+            <td>{{ registration.id }}</td>
+            <td>{{ registration.student_name }}</td>
+            <td>{{ registration.course_name }}</td>
+        </tr>
+        {% endfor %}
+    </table>
     {% else %}
-        <p>No courses added yet.</p>
+    <p>No students registered yet.</p>
     {% endif %}
 </body>
 </html>
