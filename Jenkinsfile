@@ -46,7 +46,7 @@ pipeline {
                         powershell -NoProfile -NonInteractive -Command "$env:DOCKERHUB_TOKEN | & $env:DOCKER_EXE login --username $env:DOCKERHUB_USER --password-stdin"
                         if errorlevel 1 exit /b 1
 
-                        "%DOCKER_EXE%" push %IMAGE_NAME%:v1
+                        "%DOCKER_EXE%" push %IMAGE_NAME%:v2
                         if errorlevel 1 exit /b 1
 
                         "%DOCKER_EXE%" logout
