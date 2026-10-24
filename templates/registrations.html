@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Registrations - V3</title>
+</head>
+<body>
+    <h1>Course Registration System - V3</h1>
+    <h2>All Student Registrations</h2>
+
+    {% if registrations %}
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Registration ID</th>
+            <th>Student Name</th>
+            <th>Course</th>
+        </tr>
+        {% for registration in registrations %}
+        <tr>
+            <td>{{ registration.id }}</td>
+            <td>{{ registration.student_name }}</td>
+            <td>{{ registration.course_name }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No registrations yet.</p>
+    {% endif %}
+
+    <p><a href="/">Back to Course Registration</a></p>
+</body>
+</html>

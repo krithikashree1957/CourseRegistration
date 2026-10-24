@@ -64,6 +64,12 @@ def register_student():
 
     return redirect(url_for("home"))
 
+@app.route("/registrations")
+def view_registrations():
+    return render_template(
+        "registrations.html",
+        registrations=registrations
+    )
 
 @app.route("/health")
 def health():
